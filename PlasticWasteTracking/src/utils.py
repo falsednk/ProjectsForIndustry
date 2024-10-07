@@ -163,3 +163,13 @@ def get_metrics_tracker_in_detail(gt, tg, fr_min, fr_max, max_iou=1):
                                      'num_fragmentations', 'mota', 'motp' \
                                     ], name='acc')
     return summary, acc
+
+def write_new_file(input_file, output_file):
+    cap = cv2.VideoCapture(input_file)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    output = cv2.VideoWriter(output_file, fourcc, fps, (width, height))
+
+    return cap, output    
