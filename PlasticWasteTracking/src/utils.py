@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 import motmetrics as mm
+import torch
+from torch import nn
 
 def imshow_frame(inp, norm=None, title=None, plt_ax=plt,  mode=None, color = None, pil=None):
     if mode=='tensor':
@@ -118,6 +120,26 @@ def bbox_iou_np(boxes1, boxes2):
 
     return iou
 
+def percentile(t, q):
+    k = 1 + round(.01 * float(q) * (t.numel() - 1))
+    result = t.view(-1).kthvalue(k).values.item()
+    return result
+
+def clear_mask(mask, th = 90):
+    y_indices, x_indices = torch.where(mask == 1)
+    centroid_y = y_indices.float().mean()
+    centroid_x = x_indices.float().mean()
+
+    distances = torch.sqrt((y_indices.float() - centroid_y) ** 2 + (x_indices.float() - centroid_x) ** 2)
+    threshold = percentile(distances, th)
+    
+    x_in = x_indices[torch.where((distances <= threshold)==True)[0]]
+    y_in = y_indices[torch.where((distances <= threshold)==True)[0]]
+    ind = torch.stack((y_in, x_in), dim=1)
+    clear_mask = torch.zeros_like(mask)
+    clear_mask[ind[:, 0], ind[:, 1]] = 1
+    
+    return clear_mask
 
 def get_info_frame_sam2(bboxs, obj_id, labels_tracks):
     results_frame = {'rf': []}
