@@ -29,7 +29,7 @@ PlasticWasteTracking/
 │   ├── SFSORT.py
 │   ├── mc_SMILEtrack.py
 │   ├── sort.py
-│   └── sam2s/
+│   └── sam2/
 │       ├── build_sam.py
 │       └── sam2_camera_predictor.py
 ├── notebooks/
