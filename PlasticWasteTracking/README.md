@@ -38,6 +38,7 @@ PlasticWasteTracking/
 │   ├── renue-segmentations-sam2.ipynb
 │   ├── renue-search-new-trackers.ipynb
 │   └── renue-smiletrack.ipynb
+├── requirements.txt
 └── README.md
 ```
 </div>
